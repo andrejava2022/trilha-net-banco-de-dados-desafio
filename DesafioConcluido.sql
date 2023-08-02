@@ -14,10 +14,12 @@ FROM Filmes
 -- 2- Buscar o nome e ano dos filmes, ordenados por ordem crescente pelo ano
 
 SELECT 
-	*
+	Nome,
+	Ano,
+	Duracao
 FROM Filmes ORDER BY Ano
 
--- 3- Buscar pelo filme de volta para o futuro, trazendo o nome, ano e a duração
+-- 3- Buscar pelo filme de volta para o futuro, trazendo o nome, ano e a duraÃ§Ã£o
 
 SELECT 
 	Nome,
@@ -25,7 +27,7 @@ SELECT
 	Duracao
 	FROM Filmes WHERE Nome = 'De Volta para o Futuro'
 
--- 4- Buscar os filmes lançados em 1997
+-- 4- Buscar os filmes lanÃ§ados em 1997
 
 SELECT
 	Nome,
@@ -33,7 +35,7 @@ SELECT
 	Duracao
 FROM Filmes WHERE Ano = 1997
 
--- 5- Buscar os filmes lançados APÓS o ano 2000
+-- 5- Buscar os filmes lanÃ§ados APÃ“S o ano 2000
 
 SELECT
 	Nome,
@@ -50,7 +52,7 @@ SELECT
 FROM Filmes WHERE Duracao > 100 AND Duracao < 150 
 ORDER BY Duracao
 
--- 7- Buscar a quantidade de filmes lançadas no ano, agrupando por ano, ordenando pela duracao em ordem decrescente
+-- 7- Buscar a quantidade de filmes lanÃ§adas no ano, agrupando por ano, ordenando pela duracao em ordem decrescente
 
 SELECT Ano, 
 COUNT(Ano) as Quantidade
@@ -58,7 +60,7 @@ FROM Filmes
 GROUP BY Ano
 ORDER BY Quantidade DESC
 
--- 8- Buscar os Atores do gênero masculino, retornando o PrimeiroNome, UltimoNome
+-- 8- Buscar os Atores do gÃªnero masculino, retornando o PrimeiroNome, UltimoNome
 
 SELECT 
 	PrimeiroNome,
@@ -66,29 +68,46 @@ SELECT
 FROM Atores
 WHERE Genero = 'M'
 
--- 9- Buscar os Atores do gênero feminino, retornando o PrimeiroNome, UltimoNome, e ordenando pelo PrimeiroNome
+-- 9- Buscar os Atores do gÃªnero feminino, retornando o PrimeiroNome, UltimoNome, e ordenando pelo PrimeiroNome
 
-SELECT *
+SELECT 
+	PrimeiroNome,
+	UltimoNome
 FROM Atores
 WHERE Genero = 'F'
 ORDER BY PrimeiroNome
 	
--- 10- Buscar o nome do filme e o gênero
+-- 10- Buscar o nome do filme e o gÃªnero
 
-SELECT 
-	Filmes.Nome,
-	Generos.Genero
-FROM
-	Filmes, Generos
-INNER JOIN FilmesGenero ON FilmesGenero.Id = Filmes.Id
+SELECT Filmes.Nome, Generos.Genero
+FROM Filmes
+JOIN FilmesGenero
+ON Filmes.Id = FilmesGenero.IdFilme
+JOIN Generos
+ON FilmesGenero.IdGenero = Generos.Id;
 
--- 11- Buscar o nome do filme e o gênero do tipo "Mistério"
 
-SELECT 
-	Filmes.Nome,
-	Generos.Genero
-FROM
-	Filmes, Generos
-where Generos.Genero = 'Mistério'
+-- 11- Buscar o nome do filme e o gÃªnero do tipo "MistÃ©rio"
+
+SELECT Filmes.Nome, Generos.Genero
+FROM Filmes
+JOIN FilmesGenero
+ON Filmes.Id = FilmesGenero.IdFilme
+JOIN Generos
+ON FilmesGenero.IdGenero = Generos.Id
+WHERE Generos.Genero = 'MistÃ©rio'
 
 -- 12- Buscar o nome do filme e os atores, trazendo o PrimeiroNome, UltimoNome e seu Papel
+
+SELECT Filmes.Nome, 
+		Atores.PrimeiroNome, 
+		Atores.UltimoNome, 
+		ElencoFilme.Papel
+FROM Filmes
+JOIN ElencoFilme
+ON Filmes.Id = ElencoFilme.IdFilme
+JOIN Atores
+ON Atores.Id = ElencoFilme.IdAtor
+
+
+
